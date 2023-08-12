@@ -1,12 +1,19 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { router } from './routes'
+import cors from 'cors'
 
 dotenv.config()
 
 const app = express()
 
 const PORT = process.env.PORT || 3000
+
+app.use(
+  cors({
+    origin: 'http://127.0.0.1:5173',
+  }),
+)
 
 app.use(express.json())
 
