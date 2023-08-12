@@ -10,13 +10,13 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-app.use('/data', express.static(resolve(__dirname, 'data')))
-
 app.use(
   cors({
     origin: 'http://127.0.0.1:5173',
   }),
 )
+
+app.use('/data', express.static(resolve(__dirname, 'data')))
 
 app.use(express.json())
 
