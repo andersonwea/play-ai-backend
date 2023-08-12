@@ -17,6 +17,10 @@ export async function validateVideoDuration(
       getDuration: true,
     })
 
+    if (video.stdout.length === 2) {
+      return next()
+    }
+
     const [minutes] = video.stdout.split(':')
 
     if (Number(minutes) > 10) {
