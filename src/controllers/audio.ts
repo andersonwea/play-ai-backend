@@ -7,21 +7,13 @@ import fs from 'fs'
 export async function getAudioFromVideo(request: Request, response: Response) {
   const { videoUrl } = request.body
 
-  fs.access(
-    resolve(__dirname, '../data/music.wav'),
-    fs.constants.F_OK,
-    (err) => {
+  fs.access(resolve(__dirname, '../data/music.wav'), fs.constants.F_OK, () => {
+    fs.unlink(resolve(__dirname, '../data/music.wav'), (err) => {
       if (err) {
-        return
+        console.error(err)
       }
-
-      fs.unlink(resolve(__dirname, '../data/music.wav'), (err) => {
-        if (err) {
-          console.error(err)
-        }
-      })
-    },
-  )
+    })
+  })
 
   try {
     await youtubedl.exec(videoUrl, {
@@ -29,6 +21,7 @@ export async function getAudioFromVideo(request: Request, response: Response) {
       format: 'bestaudio',
       maxFilesize: '10m',
     })
+    console.log({ videoUrl })
 
     const fullUrl = getBaseUrl(request.protocol, request.hostname)
     const audioUrl = new URL(`/data/music.wav`, fullUrl).toString()

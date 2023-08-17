@@ -21,7 +21,19 @@ export async function validateVideoDuration(
       return next()
     }
 
-    const [minutes] = video.stdout.split(':')
+    if (video.failed === true) {
+      return response.status(500).send
+    }
+
+    const time = video.stdout.split(':')
+
+    if (time.length > 2) {
+      return response
+        .status(400)
+        .json({ message: 'Music is too long to load.' })
+    }
+
+    const [minutes] = time
 
     if (Number(minutes) > 10) {
       return response
