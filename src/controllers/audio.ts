@@ -26,7 +26,7 @@ export async function getAudioFromVideo(request: Request, response: Response) {
       maxFilesize: '10m',
     })
 
-    const fullUrl = getBaseUrl(request.protocol, request.hostname)
+    const fullUrl = getBaseUrl('https', request.hostname)
     const audioUrl = new URL(`/data/music.wav`, fullUrl).toString()
 
     return response.json({ audioUrl })
