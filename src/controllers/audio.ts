@@ -3,12 +3,16 @@ import { resolve } from 'path'
 import youtubedl from 'youtube-dl-exec'
 import { getBaseUrl } from '../utils/get-base-url'
 import fs from 'fs'
+import 'dotenv/config'
 
 export async function getAudioFromVideo(request: Request, response: Response) {
   const { videoUrl } = request.body
 
-  fs.access(resolve(__dirname, '../data/music.wav'), fs.constants.F_OK, () => {
-    fs.unlink(resolve(__dirname, '../data/music.wav'), (err) => {
+  const outputPath =
+    process.env.NODE_ENV === 'DEV' ? '../data/music.wav' : 'data/music.wav'
+
+  fs.access(resolve(__dirname, outputPath), fs.constants.F_OK, () => {
+    fs.unlink(resolve(__dirname, outputPath), (err) => {
       if (err) {
         console.error(err)
       }
@@ -17,11 +21,10 @@ export async function getAudioFromVideo(request: Request, response: Response) {
 
   try {
     await youtubedl.exec(videoUrl, {
-      output: resolve(__dirname, '../data/music.wav'),
+      output: resolve(__dirname, outputPath),
       format: 'bestaudio',
       maxFilesize: '10m',
     })
-    console.log({ videoUrl })
 
     const fullUrl = getBaseUrl(request.protocol, request.hostname)
     const audioUrl = new URL(`/data/music.wav`, fullUrl).toString()
