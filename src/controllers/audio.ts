@@ -9,7 +9,9 @@ export async function getAudioFromVideo(request: Request, response: Response) {
   const { videoUrl } = request.body
 
   const outputPath =
-    process.env.NODE_ENV === 'DEV' ? '../data/music.wav' : 'data/music.wav'
+    process.env.NODE_ENV === 'DEV'
+      ? '../data/music.wav'
+      : '../public/data/music.wav'
 
   fs.access(resolve(__dirname, outputPath), fs.constants.F_OK, () => {
     fs.unlink(resolve(__dirname, outputPath), (err) => {

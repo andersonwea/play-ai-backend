@@ -1,26 +1,9 @@
-import express from 'express'
+import { app } from './app'
 import dotenv from 'dotenv'
-import { router } from './routes'
-import cors from 'cors'
-import { resolve } from 'path'
 
 dotenv.config()
 
-const app = express()
-
-const PORT = process.env.PORT || 3000
-
-app.use(
-  cors({
-    origin: '*',
-  }),
-)
-
-app.use('/data', express.static(resolve(__dirname, 'data')))
-
-app.use(express.json())
-
-app.use(router)
+const PORT = process.env.PORT || 3333
 
 app.listen(PORT, () => {
   console.log(`🚀 HTTP server running on port http://localhost:${PORT}`)
