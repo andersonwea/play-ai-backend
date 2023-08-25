@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src --ext .ts --fix",
-    "build": "tsup src --out-dir build",
+    "build": "tsup src --out-dir public/build",
     "start": "node build/server.js"
   },
   "keywords": [],
